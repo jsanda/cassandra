@@ -182,7 +182,8 @@ public class ClientState
         if (!(perm.equals(Permission.ALTER) || perm.equals(Permission.DROP) || perm.equals(Permission.CREATE)))
             return;
 
-        if (Schema.systemKeyspaceNames.contains(keyspace.toLowerCase()))
+        if (Schema.systemKeyspaceNames.contains(keyspace.toLowerCase()) && !(perm.equals(Permission.SELECT) || perm.equals(Permission.MODIFY)
+            || perm.equals(Permission.ALTER)))
             throw new UnauthorizedException(keyspace + " keyspace is not user-modifiable.");
 
         // we want to allow altering AUTH_KS itself.
