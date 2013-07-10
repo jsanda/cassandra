@@ -158,7 +158,7 @@ public class ClientState
         if (perm.equals(Permission.SELECT) && READABLE_SYSTEM_RESOURCES.contains(resource))
             return;
         if (PROTECTED_AUTH_RESOURCES.contains(resource))
-            if (perm.equals(Permission.CREATE) || perm.equals(Permission.ALTER) || perm.equals(Permission.DROP))
+            if (perm.equals(Permission.CREATE) || perm.equals(Permission.DROP))
                 throw new UnauthorizedException(String.format("%s schema is protected", resource));
         ensureHasPermission(perm, resource);
     }
@@ -187,7 +187,10 @@ public class ClientState
             throw new UnauthorizedException(keyspace + " keyspace is not user-modifiable.");
 
         // we want to allow altering AUTH_KS itself.
-        if (keyspace.equals(Auth.AUTH_KS) && !(resource.isKeyspaceLevel() && perm.equals(Permission.ALTER)))
+//        if (keyspace.equals(Auth.AUTH_KS) && !(resource.isKeyspaceLevel() && perm.equals(Permission.ALTER)))
+//            throw new UnauthorizedException(String.format("Cannot %s %s", perm, resource));
+        if (keyspace.equals(Auth.AUTH_KS) && !(perm.equals(Permission.SELECT) || perm.equals(Permission.MODIFY)
+            || perm.equals(Permission.ALTER)))
             throw new UnauthorizedException(String.format("Cannot %s %s", perm, resource));
     }
 
