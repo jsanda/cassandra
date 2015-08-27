@@ -210,7 +210,9 @@ public class CassandraDaemon
         {
             // There is essentially no QA done on OpenJDK builds, and
             // clusters running OpenJDK have seen many heap and load issues.
-            logger.warn("OpenJDK is not recommended. Please upgrade to the newest Oracle Java release");
+
+            // We want to ignore this warning since we support OpenJDK for JON
+//            logger.warn("OpenJDK is not recommended. Please upgrade to the newest Oracle Java release");
         }
         else if (!javaVmName.contains("HotSpot"))
         {
